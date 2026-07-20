@@ -53,6 +53,41 @@ export function useApartmentService() {
     return data as ApartmentWithImages
   }
 
+  /** Same city first, then fill with other published apartments. Excludes current id. */
+  async function getSimilarApartments(
+    apartment: Pick<Apartment, 'id' | 'city'>,
+    limit = 3,
+  ): Promise<ApartmentWithImages[]> {
+    const { data: sameCity } = await supabase
+      .from('apartments')
+      .select('*, apartment_images(*)')
+      .eq('status', 'published')
+      .eq('city', apartment.city)
+      .neq('id', apartment.id)
+      .order('created_at', { ascending: false })
+      .limit(limit)
+
+    const results = (sameCity || []) as ApartmentWithImages[]
+    if (results.length >= limit) return results
+
+    const exclude = new Set([apartment.id, ...results.map((a) => a.id)])
+    const { data: others } = await supabase
+      .from('apartments')
+      .select('*, apartment_images(*)')
+      .eq('status', 'published')
+      .neq('id', apartment.id)
+      .order('created_at', { ascending: false })
+      .limit(limit + results.length)
+
+    for (const apt of (others || []) as ApartmentWithImages[]) {
+      if (exclude.has(apt.id)) continue
+      results.push(apt)
+      if (results.length >= limit) break
+    }
+
+    return results
+  }
+
   async function getCities(): Promise<string[]> {
     const { data, error } = await supabase
       .from('apartments')
@@ -73,6 +108,7 @@ export function useApartmentService() {
     getAllApartments,
     getApartmentById,
     getApartmentBySlug,
+    getSimilarApartments,
     getCities,
     getImageUrl,
   }

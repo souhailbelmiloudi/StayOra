@@ -86,6 +86,8 @@
     "amenities": "Amenities included",
     "bookWhatsApp": "Book via WhatsApp",
     "requestInfo": "Request information",
+    "similarTitle": "Similar apartments",
+    "similarSubtitle": "Other options you might like",
     "notFound": "Apartment not found",
     "backToList": "Back to apartments",
     "metaFallback": "Apartment — StayOra"

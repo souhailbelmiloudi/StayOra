@@ -1,5 +1,5 @@
 <template>
-  <div v-if="apartment" class="px-4 py-8 sm:px-6 lg:px-8">
+ 1 <div v-if="apartment" class="px-4 py-8 sm:px-6 lg:px-8">
     <div class="container-narrow mx-auto">
       <nav class="mb-6 text-sm text-gray-400">
         <NuxtLink :to="localePath('/')" class="transition-colors hover:text-gray-600">{{ t('nav.home') }}</NuxtLink>
@@ -110,6 +110,20 @@
           </div>
         </div>
       </div>
+
+      <section v-if="similar?.length" class="mt-16 border-t border-gray-100 pt-12">
+        <div class="mb-8">
+          <h2 class="text-2xl font-bold tracking-tight text-gray-900">{{ t('detail.similarTitle') }}</h2>
+          <p class="mt-1 text-sm text-gray-500">{{ t('detail.similarSubtitle') }}</p>
+        </div>
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <ApartmentCard
+            v-for="apt in similar"
+            :key="apt.id"
+            :apartment="apt"
+          />
+        </div>
+      </section>
     </div>
   </div>
 
@@ -125,7 +139,7 @@
 const route = useRoute()
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
-const { getApartmentBySlug } = useApartmentService()
+const { getApartmentBySlug, getSimilarApartments } = useApartmentService()
 const { checkIn, checkOut } = useDateRange()
 const { business, whatsappNumber } = useBusinessSettings()
 const { formatPrice } = useCurrency()
@@ -133,6 +147,15 @@ const { formatPrice } = useCurrency()
 const { data: apartment, pending } = useAsyncData(
   `apartment-${route.params.id}`,
   () => getApartmentBySlug(route.params.id as string),
+)
+
+const { data: similar } = useAsyncData(
+  `similar-${route.params.id}`,
+  async () => {
+    if (!apartment.value) return []
+    return getSimilarApartments(apartment.value, 3)
+  },
+  { watch: [apartment] },
 )
 
 const displayName = computed(() =>

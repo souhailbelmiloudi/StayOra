@@ -6,15 +6,18 @@ export const CURRENCIES: { code: CurrencyCode; symbol: string; label: string }[]
   { code: 'MAD', symbol: 'DH', label: 'Dirham' },
 ]
 
+/** Sensible defaults so MAD/USD never behave as 1:1 with EUR before the API responds */
+const FALLBACK_RATES: Record<CurrencyCode, number> = {
+  EUR: 1,
+  USD: 1.14,
+  MAD: 10.7,
+}
+
 const COOKIE_KEY = 'stayora_currency'
 
 export function useCurrency() {
   const currency = useState<CurrencyCode>('display-currency', () => 'EUR')
-  const rates = useState<Record<CurrencyCode, number>>('fx-rates', () => ({
-    EUR: 1,
-    USD: 1,
-    MAD: 1,
-  }))
+  const rates = useState<Record<CurrencyCode, number>>('fx-rates', () => ({ ...FALLBACK_RATES }))
   const ratesLoaded = useState('fx-rates-loaded', () => false)
   const preferenceLoaded = useState('fx-pref-loaded', () => false)
   const ratesUpdatedAt = useState<string | null>('fx-rates-updated', () => null)
@@ -42,7 +45,8 @@ export function useCurrency() {
       rates.value = data.rates
       ratesUpdatedAt.value = data.updatedAt
     } catch {
-      // Prices stay in EUR if the FX API is down
+      // Keep fallback rates (never leave MAD/USD at 1:1)
+      rates.value = { ...FALLBACK_RATES }
     } finally {
       ratesLoaded.value = true
     }
@@ -55,15 +59,20 @@ export function useCurrency() {
   }
 
   function convertFromEur(amountEur: number): number {
-    const rate = rates.value[currency.value] ?? 1
+    const rate = rates.value[currency.value] || FALLBACK_RATES[currency.value] || 1
     return amountEur * rate
   }
 
   /** Convert an amount typed in the selected currency back to EUR (DB base). */
   function convertToEur(amount: number): number {
-    const rate = rates.value[currency.value] ?? 1
+    const rate = rates.value[currency.value] || FALLBACK_RATES[currency.value] || 1
     if (!rate) return amount
     return amount / rate
+  }
+
+  /** Same rounded amount the user sees on cards (0 decimal places). */
+  function displayAmount(amountEur: number): number {
+    return Math.round(convertFromEur(amountEur))
   }
 
   function formatPrice(amountEur: number): string {
@@ -95,6 +104,7 @@ export function useCurrency() {
     setCurrency,
     convertFromEur,
     convertToEur,
+    displayAmount,
     formatPrice,
   }
 }
