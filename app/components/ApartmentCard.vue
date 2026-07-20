@@ -72,6 +72,7 @@ const props = defineProps<{
 const { t } = useI18n()
 const localePath = useLocalePath()
 const { getImageUrl } = useApartmentService()
+const { formatPrice } = useCurrency()
 
 const primaryImage = computed(() =>
   props.apartment.apartment_images?.find((i) => i.is_primary) ||

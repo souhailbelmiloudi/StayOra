@@ -1,6 +1,7 @@
 export function useDateRange() {
-  const checkIn = ref<string>('')
-  const checkOut = ref<string>('')
+  // Shared across DateCalendar + apartment page so WhatsApp gets the same dates
+  const checkIn = useState('dateRange.checkIn', () => '')
+  const checkOut = useState('dateRange.checkOut', () => '')
 
   const nights = computed(() => {
     if (!checkIn.value || !checkOut.value) return 0

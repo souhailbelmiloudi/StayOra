@@ -1,9 +1,15 @@
+/** Formats a price in EUR (base currency). Prefer useCurrency().formatPrice for display with FX. */
 export function formatPrice(price: number): string {
-  return new Intl.NumberFormat('es-ES', {
-    style: 'currency',
-    currency: 'EUR',
-    maximumFractionDigits: 0,
-  }).format(price)
+  // Delegate to reactive currency when running inside Nuxt (public site)
+  try {
+    return useCurrency().formatPrice(price)
+  } catch {
+    return new Intl.NumberFormat('es-ES', {
+      style: 'currency',
+      currency: 'EUR',
+      maximumFractionDigits: 0,
+    }).format(price)
+  }
 }
 
 export function formatDate(iso: string): string {

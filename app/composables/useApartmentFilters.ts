@@ -52,10 +52,15 @@ export function useApartmentFilters() {
   function filterApartments<T extends { city: string; price_per_night: number; max_guests: number }>(
     apartments: T[],
   ): T[] {
+    // Filter inputs are in the selected display currency; prices in DB are EUR
+    const { convertToEur } = useCurrency()
+    const minEur = sharedFilters.priceMin != null ? convertToEur(sharedFilters.priceMin) : null
+    const maxEur = sharedFilters.priceMax != null ? convertToEur(sharedFilters.priceMax) : null
+
     return apartments.filter((a) => {
       if (sharedFilters.city && a.city !== sharedFilters.city) return false
-      if (sharedFilters.priceMin && a.price_per_night < sharedFilters.priceMin) return false
-      if (sharedFilters.priceMax && a.price_per_night > sharedFilters.priceMax) return false
+      if (minEur != null && a.price_per_night < minEur) return false
+      if (maxEur != null && a.price_per_night > maxEur) return false
       if (sharedFilters.guests && a.max_guests < sharedFilters.guests) return false
       return true
     })

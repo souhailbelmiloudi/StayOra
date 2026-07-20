@@ -148,6 +148,9 @@
     "fr": "Français",
     "ar": "العربية"
   },
+  "currency": {
+    "label": "العملة"
+  },
   "admin": {
     "nav": {
       "dashboard": "لوحة التحكم",
@@ -218,7 +221,7 @@
       "address": "العنوان",
       "shortDescription": "وصف قصير",
       "details": "التفاصيل",
-      "pricePerNight": "السعر / ليلة (€) *",
+      "pricePerNight": "السعر / ليلة (EUR) *",
       "guests": "الضيوف *",
       "sqm": "م²",
       "bedrooms": "غرف النوم *",
@@ -247,6 +250,14 @@
       "dropHint": "اسحب أو انقر للرفع",
       "altPlaceholder": "نص بديل",
       "primary": "رئيسية",
+      "order": "الترتيب",
+      "viewCatalog": "عرض الكتالوج",
+      "catalogTitle": "كتالوج الصور",
+      "catalogCount": "{count} صور",
+      "deleteConfirmTitle": "حذف الصورة",
+      "deleteConfirmMessage": "هل أنت متأكد من حذف هذه الصورة؟ لا يمكن التراجع عن هذا الإجراء.",
+      "delete": "حذف",
+      "close": "إغلاق",
       "uploading": "جاري رفع الصورة...",
       "uploaded": "تم رفع الصور",
       "uploadError": "فشل رفع الصور",

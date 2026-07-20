@@ -148,6 +148,9 @@
     "fr": "Français",
     "ar": "العربية"
   },
+  "currency": {
+    "label": "Devise"
+  },
   "admin": {
     "nav": {
       "dashboard": "Tableau de bord",
@@ -218,7 +221,7 @@
       "address": "Adresse",
       "shortDescription": "Description courte",
       "details": "Détails",
-      "pricePerNight": "Prix / nuit (€) *",
+      "pricePerNight": "Prix / nuit (EUR) *",
       "guests": "Voyageurs *",
       "sqm": "m²",
       "bedrooms": "Chambres *",
@@ -247,6 +250,14 @@
       "dropHint": "Glissez ou cliquez pour téléverser",
       "altPlaceholder": "Texte alternatif",
       "primary": "Principale",
+      "order": "Ordre",
+      "viewCatalog": "Voir le catalogue",
+      "catalogTitle": "Catalogue d'images",
+      "catalogCount": "{count} images",
+      "deleteConfirmTitle": "Supprimer l'image",
+      "deleteConfirmMessage": "Voulez-vous vraiment supprimer cette image ? Cette action est irréversible.",
+      "delete": "Supprimer",
+      "close": "Fermer",
       "uploading": "Téléversement...",
       "uploaded": "Images téléversées",
       "uploadError": "Erreur de téléversement",

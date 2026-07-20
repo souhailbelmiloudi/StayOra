@@ -148,6 +148,9 @@
     "fr": "Français",
     "ar": "العربية"
   },
+  "currency": {
+    "label": "Moneda"
+  },
   "admin": {
     "nav": {
       "dashboard": "Dashboard",
@@ -218,7 +221,7 @@
       "address": "Dirección",
       "shortDescription": "Descripción corta",
       "details": "Detalles",
-      "pricePerNight": "Precio / noche (€) *",
+      "pricePerNight": "Precio / noche (EUR) *",
       "guests": "Huéspedes *",
       "sqm": "m²",
       "bedrooms": "Habitaciones *",
@@ -247,6 +250,14 @@
       "dropHint": "Arrastra o haz clic para subir",
       "altPlaceholder": "Texto alternativo",
       "primary": "Principal",
+      "order": "Orden",
+      "viewCatalog": "Ver catálogo",
+      "catalogTitle": "Catálogo de imágenes",
+      "catalogCount": "{count} imágenes",
+      "deleteConfirmTitle": "Eliminar imagen",
+      "deleteConfirmMessage": "¿Seguro que quieres eliminar esta imagen? Esta acción no se puede deshacer.",
+      "delete": "Eliminar",
+      "close": "Cerrar",
       "uploading": "Subiendo imagen...",
       "uploaded": "Imágenes subidas",
       "uploadError": "Error al subir imágenes",

@@ -44,6 +44,7 @@ defineProps<{
 
 const { t } = useI18n()
 const { checkIn, checkOut, nights } = useDateRange()
+const { formatPrice } = useCurrency()
 
 const emit = defineEmits<{
   'update:checkIn': [value: string]

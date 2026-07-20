@@ -128,6 +128,7 @@ const localePath = useLocalePath()
 const { getApartmentBySlug } = useApartmentService()
 const { checkIn, checkOut } = useDateRange()
 const { business, whatsappNumber } = useBusinessSettings()
+const { formatPrice } = useCurrency()
 
 const { data: apartment, pending } = useAsyncData(
   `apartment-${route.params.id}`,

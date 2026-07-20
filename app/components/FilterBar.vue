@@ -15,7 +15,7 @@
           v-model.number="filters.priceMin"
           type="number"
           min="0"
-          placeholder="€0"
+          :placeholder="`${currencyMeta.symbol}0`"
           class="input-field"
         />
       </div>
@@ -58,4 +58,7 @@
 <script setup lang="ts">
 const { t } = useI18n()
 const { filters, cities, applyFilters, clearFilters } = useApartmentFilters()
+const { currencyMeta, ensureRates } = useCurrency()
+
+onMounted(() => ensureRates())
 </script>

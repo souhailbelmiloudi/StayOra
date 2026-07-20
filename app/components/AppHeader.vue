@@ -32,10 +32,12 @@
             {{ t('nav.contact') }}
           </NuxtLink>
         </nav>
+        <CurrencySwitcher />
         <LanguageSwitcher />
       </div>
 
       <div class="flex items-center gap-1 md:hidden">
+        <CurrencySwitcher />
         <LanguageSwitcher />
         <button
           class="flex h-10 w-10 items-center justify-center rounded-xl text-gray-600 transition-colors hover:bg-gray-100"
@@ -81,6 +83,9 @@
 const { t } = useI18n()
 const localePath = useLocalePath()
 const { business } = useBusinessSettings()
+const { ensureRates } = useCurrency()
 const mobileOpen = ref(false)
 const brandInitial = computed(() => business.value.name?.charAt(0)?.toUpperCase() || 'S')
+
+onMounted(() => ensureRates())
 </script>

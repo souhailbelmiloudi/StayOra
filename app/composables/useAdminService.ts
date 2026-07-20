@@ -1,4 +1,4 @@
-import type { Apartment, ApartmentWithImages, ReservationRequest, BusinessSettings, DashboardStats, Review, ReviewInput } from '~/types'
+import type { Apartment, ApartmentImage, ApartmentWithImages, ReservationRequest, BusinessSettings, DashboardStats, Review, ReviewInput } from '~/types'
 
 const BUCKET = 'apartment-images'
 
@@ -168,6 +168,26 @@ export function useAdminService() {
     return results.every((r) => !r.error)
   }
 
+  async function listImages(apartmentId: string): Promise<ApartmentImage[]> {
+    const { data, error } = await supabase
+      .from('apartment_images')
+      .select('*')
+      .eq('apartment_id', apartmentId)
+      .order('sort_order', { ascending: true })
+
+    if (error) throw error
+    return (data || []) as ApartmentImage[]
+  }
+
+  async function updateImageAlt(id: string, alt: string): Promise<boolean> {
+    const { error } = await supabase
+      .from('apartment_images')
+      .update({ alt })
+      .eq('id', id)
+
+    return !error
+  }
+
   async function getAllReservations(): Promise<ReservationRequest[]> {
     const { data, error } = await supabase
       .from('reservation_requests')
@@ -301,6 +321,8 @@ export function useAdminService() {
     addImage,
     deleteImage,
     updateImageOrder,
+    listImages,
+    updateImageAlt,
     getAllReservations,
     deleteReservation,
     getSettings,

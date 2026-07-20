@@ -1,5 +1,7 @@
 export type ApartmentStatus = 'published' | 'hidden'
 
+export type CurrencyCode = 'EUR' | 'USD' | 'MAD'
+
 export interface Apartment {
   id: string
   name: string
