@@ -5,8 +5,14 @@ export type CurrencyCode = 'EUR' | 'USD' | 'MAD'
 export interface Apartment {
   id: string
   name: string
+  name_es?: string
+  name_fr?: string
+  name_ar?: string
   slug: string
   description: string
+  description_es?: string
+  description_fr?: string
+  description_ar?: string
   city: string
   address: string
   price_per_night: number

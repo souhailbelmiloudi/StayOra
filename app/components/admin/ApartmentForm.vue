@@ -9,6 +9,36 @@
               <label class="mb-1.5 block text-sm font-medium text-gray-700">{{ t('admin.form.name') }}</label>
               <input v-model="form.name" type="text" required class="input-field" @input="onNameInput" />
             </div>
+
+            <div class="rounded-xl border border-dashed border-gray-200 bg-gray-50/80 p-4">
+              <p class="mb-3 text-xs font-medium uppercase tracking-wide text-gray-400">
+                {{ t('admin.form.nameTranslations') }}
+              </p>
+              <div class="grid gap-3 sm:grid-cols-3">
+                <div>
+                  <label class="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-gray-600">
+                    <span class="inline-flex h-5 min-w-5 items-center justify-center rounded bg-blue-100 px-1 text-[10px] font-bold text-blue-700">ES</span>
+                    {{ t('lang.es') }}
+                  </label>
+                  <input v-model="form.name_es" type="text" class="input-field" :placeholder="form.name || t('admin.form.optional')" />
+                </div>
+                <div>
+                  <label class="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-gray-600">
+                    <span class="inline-flex h-5 min-w-5 items-center justify-center rounded bg-blue-100 px-1 text-[10px] font-bold text-blue-700">FR</span>
+                    {{ t('lang.fr') }}
+                  </label>
+                  <input v-model="form.name_fr" type="text" class="input-field" :placeholder="form.name || t('admin.form.optional')" />
+                </div>
+                <div>
+                  <label class="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-gray-600">
+                    <span class="inline-flex h-5 min-w-5 items-center justify-center rounded bg-blue-100 px-1 text-[10px] font-bold text-blue-700">AR</span>
+                    {{ t('lang.ar') }}
+                  </label>
+                  <input v-model="form.name_ar" type="text" dir="rtl" class="input-field" :placeholder="form.name || t('admin.form.optional')" />
+                </div>
+              </div>
+            </div>
+
             <div>
               <label class="mb-1.5 block text-sm font-medium text-gray-700">{{ t('admin.form.slug') }}</label>
               <input v-model="form.slug" type="text" required class="input-field" />
@@ -26,6 +56,35 @@
             <div>
               <label class="mb-1.5 block text-sm font-medium text-gray-700">{{ t('admin.form.shortDescription') }}</label>
               <textarea v-model="form.description" rows="3" class="input-field resize-none" />
+            </div>
+
+            <div class="rounded-xl border border-dashed border-gray-200 bg-gray-50/80 p-4">
+              <p class="mb-3 text-xs font-medium uppercase tracking-wide text-gray-400">
+                {{ t('admin.form.descriptionTranslations') }}
+              </p>
+              <div class="space-y-3">
+                <div>
+                  <label class="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-gray-600">
+                    <span class="inline-flex h-5 min-w-5 items-center justify-center rounded bg-blue-100 px-1 text-[10px] font-bold text-blue-700">ES</span>
+                    {{ t('lang.es') }}
+                  </label>
+                  <textarea v-model="form.description_es" rows="2" class="input-field resize-none" :placeholder="t('admin.form.optional')" />
+                </div>
+                <div>
+                  <label class="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-gray-600">
+                    <span class="inline-flex h-5 min-w-5 items-center justify-center rounded bg-blue-100 px-1 text-[10px] font-bold text-blue-700">FR</span>
+                    {{ t('lang.fr') }}
+                  </label>
+                  <textarea v-model="form.description_fr" rows="2" class="input-field resize-none" :placeholder="t('admin.form.optional')" />
+                </div>
+                <div>
+                  <label class="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-gray-600">
+                    <span class="inline-flex h-5 min-w-5 items-center justify-center rounded bg-blue-100 px-1 text-[10px] font-bold text-blue-700">AR</span>
+                    {{ t('lang.ar') }}
+                  </label>
+                  <textarea v-model="form.description_ar" rows="2" dir="rtl" class="input-field resize-none" :placeholder="t('admin.form.optional')" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -166,8 +225,14 @@ const serviceOptions = [
 
 const form = reactive({
   name: '',
+  name_es: '',
+  name_fr: '',
+  name_ar: '',
   slug: '',
   description: '',
+  description_es: '',
+  description_fr: '',
+  description_ar: '',
   city: '',
   address: '',
   price_per_night: 80,
@@ -203,8 +268,14 @@ onMounted(async () => {
     if (apt) {
       Object.assign(form, {
         name: apt.name,
+        name_es: apt.name_es || '',
+        name_fr: apt.name_fr || '',
+        name_ar: apt.name_ar || '',
         slug: apt.slug,
         description: apt.description,
+        description_es: apt.description_es || '',
+        description_fr: apt.description_fr || '',
+        description_ar: apt.description_ar || '',
         city: apt.city,
         address: apt.address,
         price_per_night: apt.price_per_night,

@@ -6,7 +6,7 @@
         <span class="mx-2">/</span>
         <NuxtLink :to="localePath('/apartments')" class="transition-colors hover:text-gray-600">{{ t('nav.apartments') }}</NuxtLink>
         <span class="mx-2">/</span>
-        <span class="text-gray-700">{{ apartment.name }}</span>
+        <span class="text-gray-700">{{ displayName }}</span>
       </nav>
 
       <div class="grid gap-8 lg:grid-cols-3">
@@ -16,7 +16,7 @@
           <div class="mt-8">
             <div class="flex items-start justify-between gap-4">
               <div>
-                <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">{{ apartment.name }}</h1>
+                <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">{{ displayName }}</h1>
                 <p class="mt-2 flex items-center gap-1.5 text-gray-500">
                   <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -60,7 +60,7 @@
 
             <div class="mt-8">
               <h2 class="text-lg font-semibold text-gray-900">{{ t('detail.description') }}</h2>
-              <p class="mt-3 leading-relaxed text-gray-600 whitespace-pre-line">{{ apartment.description }}</p>
+              <p class="mt-3 leading-relaxed text-gray-600 whitespace-pre-line">{{ displayDescription }}</p>
             </div>
 
             <div class="mt-8">
@@ -135,16 +135,23 @@ const { data: apartment, pending } = useAsyncData(
   () => getApartmentBySlug(route.params.id as string),
 )
 
+const displayName = computed(() =>
+  apartment.value ? apartmentName(apartment.value, locale.value) : '',
+)
+const displayDescription = computed(() =>
+  apartment.value ? apartmentDescription(apartment.value, locale.value) : '',
+)
+
 useHead({
   title: computed(() =>
     apartment.value
-      ? `${apartment.value.name} — ${business.value.name}`
+      ? `${displayName.value} — ${business.value.name}`
       : t('detail.metaFallback'),
   ),
   meta: [
     {
       name: 'description',
-      content: computed(() => apartment.value?.description?.slice(0, 160) || ''),
+      content: computed(() => displayDescription.value?.slice(0, 160) || ''),
     },
   ],
 })
@@ -170,7 +177,7 @@ const localeTag = computed(() => {
 })
 
 const whatsappUrl = computed(() => {
-  const lines = [t('whatsapp.intro', { name: apartment.value?.name || '' })]
+  const lines = [t('whatsapp.intro', { name: displayName.value || '' })]
 
   if (checkIn.value && checkOut.value) {
     lines.push(
